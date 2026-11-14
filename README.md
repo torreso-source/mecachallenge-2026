@@ -21,9 +21,10 @@ Este repositorio publica los materiales de la primera edición para que otros do
 
 | | |
 |---|---|
+| Fecha | 22 de octubre de 2026 |
 | Público | Estudiantes de preparatoria de la región |
 | Formato | Presencial, por equipos, un solo día (8:20–14:30 h) |
-| Equipos | 4 a 5 |
+| Equipos | 4 a 5 (uno por institución, de 3 a 4 integrantes) |
 | Reto | Sistema de monitoreo y control automatizado para un invernadero |
 | Plataforma | Arduino UNO R3 con kit cerrado (sin componentes externos) |
 | Presentación | 3 min por equipo, demostración en vivo y defensa oral sin IA |
@@ -106,6 +107,21 @@ El detalle está en [docs/03-responsabilidades.md](docs/03-responsabilidades.md)
 | Guion del maestro de ceremonias | [04-guion-maestro-de-ceremonias.md](docs/04-guion-maestro-de-ceremonias.md) | [PDF](pdf/04-guion-maestro-de-ceremonias.pdf) |
 
 Los nombres de autoridades y jurados se reemplazaron por espacios **[entre corchetes]** para que el guion sirva de plantilla.
+
+### Materiales para descargar y adaptar
+
+En [materiales/](materiales/) están los archivos de trabajo en su formato original:
+
+| Material | Archivo |
+|---|---|
+| Cartel de la convocatoria | [cartel-convocatoria-2026.pdf](materiales/cartel-convocatoria-2026.pdf) |
+| Carta de invitación a preparatorias | [carta-invitacion.docx](materiales/carta-invitacion.docx) |
+| Reglamento oficial | [reglamento.docx](materiales/reglamento.docx) |
+| Kit pedagógico para equipos | [kit-pedagogico.pdf](materiales/kit-pedagogico.pdf) |
+| Diario de IA (imprimible) | [diario-ia.html](materiales/diario-ia.html) |
+| Rúbrica de evaluación con cálculo de puntaje | [rubrica.html](materiales/rubrica.html) |
+
+El reglamento, la carta, el kit, el Diario de IA y la rúbrica son borradores de la etapa de planeación (cuando el concurso se llamaba *MecaChallenge 2025*). Algunas condiciones cambiaron en la edición final; las diferencias están en [materiales/README.md](materiales/README.md).
 
 ### Regenerar los PDF
 

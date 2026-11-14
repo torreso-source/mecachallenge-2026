@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rúbrica de Evaluación — MecaChallenge 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ══════════════════════════════════════
+   VARIABLES
+══════════════════════════════════════ */
+:root {
+  --azul:       #002D72;
+  --azul-med:   #004EB3;
+  --azul-claro: #E5EEFF;
+  --acento:     #C47F00;
+  --acento-bg:  #FFF8E6;
+
+  --nivel-4:    #0F6B35;  /* Excelente */
+  --nivel-4bg:  #DCFCE7;
+  --nivel-3:    #1565C0;  /* Bueno */
+  --nivel-3bg:  #DBEAFE;
+  --nivel-2:    #B45309;  /* Regular */
+  --nivel-2bg:  #FEF3C7;
+  --nivel-1:    #B91C1C;  /* Insuficiente */
+  --nivel-1bg:  #FEE2E2;
+
+  --gris:       #374151;
+  --gris-lite:  #F9FAFB;
+  --linea:      #D1D5DB;
+  --negro:      #0D1117;
+  --blanco:     #FFFFFF;
+
+  --mono:   'JetBrains Mono', monospace;
+  --cond:   'Barlow Condensed', sans-serif;
+  --body:   'Barlow', sans-serif;
+}
+
+/* ══════════════════════════════════════
+   RESET + BODY
+══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--body);
+  background: #CBD5E1;
+  color: var(--negro);
+}
+
+/* ══════════════════════════════════════
+   HOJA — A4 HORIZONTAL
+══════════════════════════════════════ */
+.pagina {
+  width: 297mm;
+  min-height: 210mm;
+  background: white;
+  margin: 20px auto;
+  padding: 7mm 9mm 7mm 9mm;
+  box-shadow: 0 6px 48px rgba(0,0,0,0.22);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Franja decorativa izquierda */
+.pagina::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--azul) 0%, var(--azul-med) 50%, var(--acento) 100%);
+}
+
+/* ══════════════════════════════════════
+   ENCABEZADO
+══════════════════════════════════════ */
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
+  margin-bottom: 4mm;
+  padding-bottom: 3mm;
+  border-bottom: 2px solid var(--azul);
+}
+
+.header-left {}
+
+.doc-tag {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--azul-med);
+  background: var(--azul-claro);
+  padding: 2px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.doc-titulo {
+  font-family: var(--cond);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--azul);
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+
+.doc-subtitulo {
+  font-size: 10px;
+  color: var(--gris);
+  margin-top: 3px;
+  font-weight: 400;
+}
+
+.header-right {
+  text-align: right;
+}
+
+/* Tarjeta de puntaje total — calculadora */
+.calc-card {
+  background: var(--azul);
+  border-radius: 10px;
+  padding: 8px 14px;
+  min-width: 160px;
+  color: white;
+}
+
+.calc-label {
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.calc-display {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.calc-num {
+  font-family: var(--mono);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--acento);
+  line-height: 1;
+  min-width: 44px;
+  text-align: right;
+}
+
+.calc-max {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+}
+
+.calc-barra {
+  height: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.calc-fill {
+  height: 100%;
+  background: var(--acento);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+.calc-subtotales {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
+}
+
+.sub-item {
+  text-align: center;
+}
+
+.sub-val {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+  display: block;
+}
+
+.sub-key {
+  font-family: var(--mono);
+  font-size: 6px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* ══════════════════════════════════════
+   DATOS EQUIPO (fila compacta)
+══════════════════════════════════════ */
+.datos-fila {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
+  gap: 8px;
+  background: var(--azul-claro);
+  border-radius: 6px;
+  padding: 4px 8px;
+  margin-bottom: 3mm;
+  align-items: center;
+}
+
+.dato-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dato-label {
+  font-family: var(--mono);
+  font-size: 6.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--azul-med);
+}
+
+.dato-input {
+  border: none;
+  border-bottom: 1.5px solid var(--azul-med);
+  background: transparent;
+  font-family: var(--body);
+  font-size: 9.5px;
+  color: var(--negro);
+  padding: 1px 0;
+  outline: none;
+  width: 100%;
+}
+
+/* ══════════════════════════════════════
+   LEYENDA DE NIVELES
+══════════════════════════════════════ */
+.leyenda {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  margin-bottom: 3mm;
+}
+
+.nivel-chip {
+  border-radius: 5px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nivel-chip.n4 { background: var(--nivel-4bg); }
+.nivel-chip.n3 { background: var(--nivel-3bg); }
+.nivel-chip.n2 { background: var(--nivel-2bg); }
+.nivel-chip.n1 { background: var(--nivel-1bg); }
+
+.nivel-score {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 30px;
+  text-align: center;
+}
+
+.n4 .nivel-score { color: var(--nivel-4); }
+.n3 .nivel-score { color: var(--nivel-3); }
+.n2 .nivel-score { color: var(--nivel-2); }
+.n1 .nivel-score { color: var(--nivel-1); }
+
+.nivel-info {}
+.nivel-nombre {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  display: block;
+  line-height: 1;
+}
+
+.n4 .nivel-nombre { color: var(--nivel-4); }
+.n3 .nivel-nombre { color: var(--nivel-3); }
+.n2 .nivel-nombre { color: var(--nivel-2); }
+.n1 .nivel-nombre { color: var(--nivel-1); }
+
+.nivel-rango {
+  font-family: var(--mono);
+  font-size: 7.5px;
+  color: var(--gris);
+}
+
+/* ══════════════════════════════════════
+   TABLA DE RÚBRICA
+══════════════════════════════════════ */
+.tabla-rubrica {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8px;
+  margin-bottom: 3mm;
+  table-layout: fixed;
+}
+
+/* Encabezados de columna */
+.tabla-rubrica thead tr.fila-col-header th {
+  background: var(--azul);
+  color: white;
+  padding: 5px 6px;
+  text-align: left;
+  vertical-align: bottom;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.col-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.col-nivel-num {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.col-nivel-nombre {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.col-nivel-pts {
+  font-family: var(--mono);
+  font-size: 8px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.5px;
+}
+
+/* Anchos de columnas */
+.col-criterio { width: 13%; }
+.col-peso     { width: 5%;  }
+.col-n4       { width: 18%; }
+.col-n3       { width: 18%; }
+.col-n2       { width: 18%; }
+.col-n1       { width: 16%; }
+.col-score    { width: 6%;  }
+.col-obs      { width: 6%;  }
+
+/* Encabezado de nivel con color */
+th.n4-head { background: var(--nivel-4) !important; }
+th.n3-head { background: var(--nivel-3) !important; }
+th.n2-head { background: var(--nivel-2) !important; }
+th.n1-head { background: var(--nivel-1) !important; }
+
+/* Filas de criterio */
+.tabla-rubrica tbody tr {
+  border-bottom: 1px solid var(--linea);
+}
+
+.tabla-rubrica tbody tr:nth-child(odd) {
+  background: var(--gris-lite);
+}
+
+.tabla-rubrica tbody tr:nth-child(even) {
+  background: white;
+}
+
+/* Celda de criterio */
+td.criterio-cell {
+  padding: 5px 6px;
+  vertical-align: top;
+  border-right: 2px solid var(--azul);
+  background: var(--azul-claro) !important;
+}
+
+.criterio-nombre {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--azul);
+  line-height: 1.1;
+  margin-bottom: 3px;
+  display: block;
+}
+
+.criterio-peso-badge {
+  display: inline-block;
+  background: var(--azul);
+  color: white;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-bottom: 3px;
+}
+
+.criterio-desc {
+  font-size: 7.5px;
+  color: var(--gris);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Celda de descriptor */
+td.descriptor-cell {
+  padding: 5px 6px;
+  vertical-align: top;
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--gris);
+  border-right: 1px solid var(--linea);
+}
+
+td.descriptor-cell.n4 { border-left: 2px solid var(--nivel-4); }
+td.descriptor-cell.n3 { border-left: 2px solid var(--nivel-3); }
+td.descriptor-cell.n2 { border-left: 2px solid var(--nivel-2); }
+td.descriptor-cell.n1 { border-left: 2px solid var(--nivel-1); }
+
+.desc-punto {
+  display: flex;
+  align-items: flex-start;
+  gap: 3px;
+  margin-bottom: 2px;
+  line-height: 1.35;
+}
+
+.desc-punto::before {
+  content: '›';
+  flex-shrink: 0;
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+td.descriptor-cell.n4 .desc-punto::before { color: var(--nivel-4); }
+td.descriptor-cell.n3 .desc-punto::before { color: var(--nivel-3); }
+td.descriptor-cell.n2 .desc-punto::before { color: var(--nivel-2); }
+td.descriptor-cell.n1 .desc-punto::before { color: var(--nivel-1); }
+
+/* Celda de puntuación — con radio buttons visuales */
+td.score-cell {
+  padding: 5px 4px;
+  vertical-align: middle;
+  text-align: center;
+  border-right: 1px solid var(--linea);
+}
+
+.score-options {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+}
+
+.score-btn {
+  width: 28px;
+  height: 18px;
+  border: 1.5px solid var(--linea);
+  border-radius: 4px;
+  background: white;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--gris);
+  transition: all 0.12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.score-btn:hover { transform: scale(1.08); }
+.score-btn.active-4 { background: var(--nivel-4); border-color: var(--nivel-4); color: white; }
+.score-btn.active-3 { background: var(--nivel-3); border-color: var(--nivel-3); color: white; }
+.score-btn.active-2 { background: var(--nivel-2); border-color: var(--nivel-2); color: white; }
+.score-btn.active-1 { background: var(--nivel-1); border-color: var(--nivel-1); color: white; }
+
+.score-selected {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--azul);
+  margin-top: 2px;
+  min-height: 16px;
+}
+
+.score-ponderated {
+  font-family: var(--mono);
+  font-size: 7px;
+  color: var(--gris);
+  min-height: 10px;
+}
+
+/* Celda de observaciones */
+td.obs-cell {
+  padding: 4px;
+  vertical-align: top;
+}
+
+.obs-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 100%;
+  justify-content: space-evenly;
+}
+
+.obs-line {
+  border-bottom: 1px solid var(--linea);
+  min-height: 12px;
+  width: 100%;
+}
+
+/* ══════════════════════════════════════
+   FILA DE TOTALES
+══════════════════════════════════════ */
+.tabla-rubrica tfoot tr {
+  background: var(--azul) !important;
+}
+
+.tabla-rubrica tfoot td {
+  padding: 6px 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  vertical-align: middle;
+}
+
+.foot-label {
+  font-family: var(--cond);
+  font-size: 13px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.foot-total {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--acento);
+  text-align: center;
+}
+
+.foot-firma-label {
+  font-family: var(--mono);
+  font-size: 7px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.foot-firma-linea {
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+  min-height: 18px;
+}
+
+/* ══════════════════════════════════════
+   GUÍA DE USO + FOOTER
+══════════════════════════════════════ */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 2mm;
+}
+
+.guia-bloque {
+  background: var(--acento-bg);
+  border: 1px solid #FDE68A;
+  border-radius: 6px;
+  padding: 5px 8px;
+}
+
+.guia-titulo {
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  color: var(--acento);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.guia-item {
+  font-size: 7.5px;
+  color: var(--gris);
+  line-height: 1.5;
+  padding-left: 10px;
+  position: relative;
+  margin-bottom: 1px;
+}
+
+.guia-item::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--acento);
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.footer-doc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2mm;
+  padding-top: 2mm;
+  border-top: 1px solid var(--linea);
+}
+
+.footer-izq {
+  font-family: var(--mono);
+  font-size: 7px;
+  color: var(--gris);
+  line-height: 1.5;
+}
+
+.footer-centro {
+  font-family: var(--cond);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--azul);
+  letter-spacing: 0.5px;
+}
+
+.footer-der {
+  font-family: var(--mono);
+  font-size: 7px;
+  color: var(--gris);
+  text-align: right;
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════
+   BOTÓN IMPRIMIR
+══════════════════════════════════════ */
+.print-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--azul);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,45,114,0.4);
+  letter-spacing: 0.5px;
+  z-index: 999;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.print-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,45,114,0.5); }
+
+@media print {
+  body { background: white; }
+  .pagina { margin: 0; box-shadow: none; width: 297mm; min-height: 210mm; }
+  .print-btn { display: none; }
+  .score-btn { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @page { size: A4 landscape; margin: 0; }
+}
+
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">🖨️ Imprimir Rúbrica</button>
+
+<div class="pagina">
+
+  <!-- ══ ENCABEZADO ══════════════════════════════ -->
+  <div class="header">
+    <div class="header-left">
+      <span class="doc-tag">MecaChallenge 2025 · Instrumento de Evaluación · Uso exclusivo del Jurado</span>
+      <div class="doc-titulo">RÚBRICA DE EVALUACIÓN</div>
+      <div class="doc-subtitulo">
+        Instituto Tecnológico Superior de Jerez · TecNM · División de Ingeniería Mecatrónica · Primera Edición
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="calc-card">
+        <span class="calc-label">Puntaje total del equipo</span>
+        <div class="calc-display">
+          <span class="calc-num" id="total-display">0</span>
+          <span class="calc-max">/ 100 pts</span>
+        </div>
+        <div class="calc-barra"><div class="calc-fill" id="barra-fill"></div></div>
+        <div class="calc-subtotales">
+          <div class="sub-item"><span class="sub-val" id="sub-1">—</span><span class="sub-key">Func.</span></div>
+          <div class="sub-item"><span class="sub-val" id="sub-2">—</span><span class="sub-key">Cód.</span></div>
+          <div class="sub-item"><span class="sub-val" id="sub-3">—</span><span class="sub-key">IA</span></div>
+          <div class="sub-item"><span class="sub-val" id="sub-4">—</span><span class="sub-key">Pres.</span></div>
+          <div class="sub-item"><span class="sub-val" id="sub-5">—</span><span class="sub-key">Creat.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DATOS DEL EQUIPO ════════════════════════ -->
+  <div class="datos-fila">
+    <div class="dato-campo">
+      <span class="dato-label">Nombre del equipo</span>
+      <input class="dato-input" type="text" placeholder="...">
+    </div>
+    <div class="dato-campo">
+      <span class="dato-label">Institución</span>
+      <input class="dato-input" type="text" placeholder="...">
+    </div>
+    <div class="dato-campo">
+      <span class="dato-label">Evaluador(a)</span>
+      <input class="dato-input" type="text" placeholder="Nombre del jurado">
+    </div>
+    <div class="dato-campo">
+      <span class="dato-label">Turno de presentación</span>
+      <input class="dato-input" type="text" placeholder="Ej. Equipo #3">
+    </div>
+    <div class="dato-campo">
+      <span class="dato-label">Hora</span>
+      <input class="dato-input" type="text" placeholder="__:__">
+    </div>
+  </div>
+
+  <!-- ══ LEYENDA DE NIVELES ══════════════════════ -->
+  <div class="leyenda">
+    <div class="nivel-chip n4">
+      <div class="nivel-score">4</div>
+      <div class="nivel-info">
+        <span class="nivel-nombre">EXCELENTE</span>
+        <span class="nivel-rango">9–10 pts ponderados · Supera expectativas</span>
+      </div>
+    </div>
+    <div class="nivel-chip n3">
+      <div class="nivel-score">3</div>
+      <div class="nivel-info">
+        <span class="nivel-nombre">BUENO</span>
+        <span class="nivel-rango">7–8 pts ponderados · Cumple expectativas</span>
+      </div>
+    </div>
+    <div class="nivel-chip n2">
+      <div class="nivel-score">2</div>
+      <div class="nivel-info">
+        <span class="nivel-nombre">REGULAR</span>
+        <span class="nivel-rango">5–6 pts ponderados · Cumple parcialmente</span>
+      </div>
+    </div>
+    <div class="nivel-chip n1">
+      <div class="nivel-score">1</div>
+      <div class="nivel-info">
+        <span class="nivel-nombre">INSUFICIENTE</span>
+        <span class="nivel-rango">1–4 pts ponderados · No cumple expectativas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TABLA RÚBRICA ═══════════════════════════ -->
+  <table class="tabla-rubrica">
+    <thead>
+      <tr class="fila-col-header">
+        <th class="col-criterio" style="background: #001A4D;">
+          <div class="col-header-content">
+            <span style="font-family:var(--mono);font-size:8px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;">Criterio</span>
+          </div>
+        </th>
+        <th class="col-peso" style="background: #001A4D; text-align:center;">
+          <span style="font-family:var(--mono);font-size:8px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;">Peso</span>
+        </th>
+        <th class="col-n4 n4-head">
+          <div class="col-header-content">
+            <span class="col-nivel-num">4</span>
+            <span class="col-nivel-nombre">EXCELENTE</span>
+            <span class="col-nivel-pts">9–10 puntos</span>
+          </div>
+        </th>
+        <th class="col-n3 n3-head">
+          <div class="col-header-content">
+            <span class="col-nivel-num">3</span>
+            <span class="col-nivel-nombre">BUENO</span>
+            <span class="col-nivel-pts">7–8 puntos</span>
+          </div>
+        </th>
+        <th class="col-n2 n2-head">
+          <div class="col-header-content">
+            <span class="col-nivel-num">2</span>
+            <span class="col-nivel-nombre">REGULAR</span>
+            <span class="col-nivel-pts">5–6 puntos</span>
+          </div>
+        </th>
+        <th class="col-n1 n1-head">
+          <div class="col-header-content">
+            <span class="col-nivel-num">1</span>
+            <span class="col-nivel-nombre">INSUFICIENTE</span>
+            <span class="col-nivel-pts">1–4 puntos</span>
+          </div>
+        </th>
+        <th class="col-score" style="background:#001A4D; text-align:center;">
+          <span style="font-family:var(--mono);font-size:7px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;">Nivel<br>asignado</span>
+        </th>
+        <th class="col-obs" style="background:#001A4D;">
+          <span style="font-family:var(--mono);font-size:7px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;">Obs. jurado</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- ─── CRITERIO 1: FUNCIONALIDAD ──────── -->
+      <tr>
+        <td class="criterio-cell">
+          <span class="criterio-nombre">🔌 Funcionalidad del Prototipo</span>
+          <span class="criterio-peso-badge">30%</span>
+          <span class="criterio-desc">Evaluado en demostración en vivo ante el jurado</span>
+        </td>
+        <td style="text-align:center;vertical-align:middle;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--azul);background:var(--azul-claro) !important;border-right:2px solid var(--azul);">30</td>
+        <td class="descriptor-cell n4">
+          <div class="desc-punto">Sistema funciona completamente al primer intento</div>
+          <div class="desc-punto">Cumple todos los requisitos del reto planteado</div>
+          <div class="desc-punto">Responde en tiempo real y sin fallos visibles</div>
+          <div class="desc-punto">Los sensores y el actuador operan de forma integrada</div>
+          <div class="desc-punto">Agrega funciones no solicitadas que funcionan</div>
+        </td>
+        <td class="descriptor-cell n3">
+          <div class="desc-punto">Sistema funciona con uno o dos fallos menores</div>
+          <div class="desc-punto">Cumple la mayoría de los requisitos del reto</div>
+          <div class="desc-punto">Responde correctamente tras ajuste rápido en vivo</div>
+          <div class="desc-punto">Los sensores leen datos; el actuador responde</div>
+        </td>
+        <td class="descriptor-cell n2">
+          <div class="desc-punto">Sistema funciona parcialmente (solo algunos sensores)</div>
+          <div class="desc-punto">Cumple menos de la mitad de los requisitos</div>
+          <div class="desc-punto">Requiere intervención frecuente para funcionar</div>
+          <div class="desc-punto">El actuador no responde correctamente</div>
+        </td>
+        <td class="descriptor-cell n1">
+          <div class="desc-punto">El sistema no funciona o no se puede demostrar</div>
+          <div class="desc-punto">El circuito muestra errores o está incompleto</div>
+          <div class="desc-punto">No hay evidencia de integración entre componentes</div>
+          <div class="desc-punto">El código no compila o produce errores críticos</div>
+        </td>
+        <td class="score-cell">
+          <div class="score-options">
+            <div class="score-btn" onclick="selectScore(this, 1, 4, 30)" data-nivel="4">4</div>
+            <div class="score-btn" onclick="selectScore(this, 1, 3, 30)" data-nivel="3">3</div>
+            <div class="score-btn" onclick="selectScore(this, 1, 2, 30)" data-nivel="2">2</div>
+            <div class="score-btn" onclick="selectScore(this, 1, 1, 30)" data-nivel="1">1</div>
+          </div>
+          <div class="score-selected" id="sel-1">—</div>
+          <div class="score-ponderated" id="pond-1"></div>
+        </td>
+        <td class="obs-cell">
+          <div class="obs-lines">
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- ─── CRITERIO 2: CALIDAD DEL CÓDIGO ── -->
+      <tr>
+        <td class="criterio-cell">
+          <span class="criterio-nombre">💻 Calidad del Código</span>
+          <span class="criterio-peso-badge">20%</span>
+          <span class="criterio-desc">Revisión del código fuente entregado por el equipo</span>
+        </td>
+        <td style="text-align:center;vertical-align:middle;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--azul);background:var(--azul-claro) !important;border-right:2px solid var(--azul);">20</td>
+        <td class="descriptor-cell n4">
+          <div class="desc-punto">Código bien organizado en secciones claramente delimitadas</div>
+          <div class="desc-punto">Comentarios explicativos en todas las líneas clave</div>
+          <div class="desc-punto">Variables con nombres descriptivos y coherentes</div>
+          <div class="desc-punto">Lógica de decisión clara y eficiente (if/else bien estructurados)</div>
+          <div class="desc-punto">Sin código muerto, sin redundancias innecesarias</div>
+        </td>
+        <td class="descriptor-cell n3">
+          <div class="desc-punto">Código organizado con secciones identificables</div>
+          <div class="desc-punto">Comentarios en la mayoría de las secciones importantes</div>
+          <div class="desc-punto">Nombres de variables mayormente comprensibles</div>
+          <div class="desc-punto">Lógica funcional con algunos pasos redundantes</div>
+        </td>
+        <td class="descriptor-cell n2">
+          <div class="desc-punto">Código funcional pero desordenado o sin estructura</div>
+          <div class="desc-punto">Pocos o ningún comentario explicativo</div>
+          <div class="desc-punto">Variables con nombres genéricos (a, b, x, y)</div>
+          <div class="desc-punto">Lógica difícil de seguir o con errores no críticos</div>
+        </td>
+        <td class="descriptor-cell n1">
+          <div class="desc-punto">Código sin estructura ni comentarios</div>
+          <div class="desc-punto">Copia directa sin adaptación visible</div>
+          <div class="desc-punto">Imposible determinar la intención del programa</div>
+          <div class="desc-punto">Errores de sintaxis presentes aunque el programa corre</div>
+        </td>
+        <td class="score-cell">
+          <div class="score-options">
+            <div class="score-btn" onclick="selectScore(this, 2, 4, 20)" data-nivel="4">4</div>
+            <div class="score-btn" onclick="selectScore(this, 2, 3, 20)" data-nivel="3">3</div>
+            <div class="score-btn" onclick="selectScore(this, 2, 2, 20)" data-nivel="2">2</div>
+            <div class="score-btn" onclick="selectScore(this, 2, 1, 20)" data-nivel="1">1</div>
+          </div>
+          <div class="score-selected" id="sel-2">—</div>
+          <div class="score-ponderated" id="pond-2"></div>
+        </td>
+        <td class="obs-cell">
+          <div class="obs-lines">
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- ─── CRITERIO 3: USO DE IA ──────────── -->
+      <tr>
+        <td class="criterio-cell">
+          <span class="criterio-nombre">🤖 Uso Criterioso de IA</span>
+          <span class="criterio-peso-badge">20%</span>
+          <span class="criterio-desc">Basado en el Diario de IA entregado por el equipo</span>
+        </td>
+        <td style="text-align:center;vertical-align:middle;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--azul);background:var(--azul-claro) !important;border-right:2px solid var(--azul);">20</td>
+        <td class="descriptor-cell n4">
+          <div class="desc-punto">Diario completo con 3+ registros reflexivos y detallados</div>
+          <div class="desc-punto">Documenta qué usaron, modificaron y descartaron con justificación</div>
+          <div class="desc-punto">Reflexión final demuestra comprensión profunda del rol de la IA</div>
+          <div class="desc-punto">Evidencia clara de pensamiento crítico ante las respuestas de IA</div>
+          <div class="desc-punto">El equipo puede explicar verbalmente todo lo que usó</div>
+        </td>
+        <td class="descriptor-cell n3">
+          <div class="desc-punto">Diario con 2–3 registros completos y reflexivos</div>
+          <div class="desc-punto">Documenta la mayoría de las consultas con justificación parcial</div>
+          <div class="desc-punto">Reflexión final muestra comprensión general del uso de IA</div>
+          <div class="desc-punto">El equipo puede explicar la mayoría de las consultas</div>
+        </td>
+        <td class="descriptor-cell n2">
+          <div class="desc-punto">Diario con 1–2 registros incompletos o superficiales</div>
+          <div class="desc-punto">Consultas documentadas sin justificación de la decisión</div>
+          <div class="desc-punto">Reflexión final ausente o muy breve</div>
+          <div class="desc-punto">El equipo no puede explicar completamente lo que usó de IA</div>
+        </td>
+        <td class="descriptor-cell n1">
+          <div class="desc-punto">Diario vacío o con registros ilegibles/incoherentes</div>
+          <div class="desc-punto">Evidencia de uso de IA sin registro correspondiente</div>
+          <div class="desc-punto">El equipo presenta soluciones que no puede explicar</div>
+          <div class="desc-punto">No completaron las preguntas de reflexión</div>
+        </td>
+        <td class="score-cell">
+          <div class="score-options">
+            <div class="score-btn" onclick="selectScore(this, 3, 4, 20)" data-nivel="4">4</div>
+            <div class="score-btn" onclick="selectScore(this, 3, 3, 20)" data-nivel="3">3</div>
+            <div class="score-btn" onclick="selectScore(this, 3, 2, 20)" data-nivel="2">2</div>
+            <div class="score-btn" onclick="selectScore(this, 3, 1, 20)" data-nivel="1">1</div>
+          </div>
+          <div class="score-selected" id="sel-3">—</div>
+          <div class="score-ponderated" id="pond-3"></div>
+        </td>
+        <td class="obs-cell">
+          <div class="obs-lines">
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- ─── CRITERIO 4: PRESENTACIÓN ──────── -->
+      <tr>
+        <td class="criterio-cell">
+          <span class="criterio-nombre">🎤 Presentación Oral</span>
+          <span class="criterio-peso-badge">20%</span>
+          <span class="criterio-desc">3 min presentación + 2 min preguntas del jurado</span>
+        </td>
+        <td style="text-align:center;vertical-align:middle;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--azul);background:var(--azul-claro) !important;border-right:2px solid var(--azul);">20</td>
+        <td class="descriptor-cell n4">
+          <div class="desc-punto">Presentación clara, estructurada y dentro del tiempo</div>
+          <div class="desc-punto">Dominio completo del tema: responde preguntas con solvencia</div>
+          <div class="desc-punto">Todos los integrantes participan en la exposición</div>
+          <div class="desc-punto">Demostración del prototipo fluida e integrada al discurso</div>
+          <div class="desc-punto">Lenguaje técnico apropiado usado con seguridad</div>
+        </td>
+        <td class="descriptor-cell n3">
+          <div class="desc-punto">Presentación clara con estructura reconocible</div>
+          <div class="desc-punto">Responde la mayoría de preguntas del jurado correctamente</div>
+          <div class="desc-punto">Al menos 2 integrantes participan activamente</div>
+          <div class="desc-punto">Demostración del prototipo con apoyo del código/circuito</div>
+        </td>
+        <td class="descriptor-cell n2">
+          <div class="desc-punto">Presentación con estructura poco clara o incompleta</div>
+          <div class="desc-punto">Dificultad para responder preguntas técnicas del jurado</div>
+          <div class="desc-punto">Solo el líder habla; el resto del equipo no participa</div>
+          <div class="desc-punto">Demostración parcial o con interrupciones prolongadas</div>
+        </td>
+        <td class="descriptor-cell n1">
+          <div class="desc-punto">Sin estructura clara; presentación confusa o incompleta</div>
+          <div class="desc-punto">No puede responder preguntas básicas del jurado</div>
+          <div class="desc-punto">Un solo integrante habla; equipo no involucrado</div>
+          <div class="desc-punto">No hay demostración del prototipo o falla completamente</div>
+        </td>
+        <td class="score-cell">
+          <div class="score-options">
+            <div class="score-btn" onclick="selectScore(this, 4, 4, 20)" data-nivel="4">4</div>
+            <div class="score-btn" onclick="selectScore(this, 4, 3, 20)" data-nivel="3">3</div>
+            <div class="score-btn" onclick="selectScore(this, 4, 2, 20)" data-nivel="2">2</div>
+            <div class="score-btn" onclick="selectScore(this, 4, 1, 20)" data-nivel="1">1</div>
+          </div>
+          <div class="score-selected" id="sel-4">—</div>
+          <div class="score-ponderated" id="pond-4"></div>
+        </td>
+        <td class="obs-cell">
+          <div class="obs-lines">
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- ─── CRITERIO 5: CREATIVIDAD ────────── -->
+      <tr>
+        <td class="criterio-cell">
+          <span class="criterio-nombre">✨ Creatividad y Valor Agregado</span>
+          <span class="criterio-peso-badge">10%</span>
+          <span class="criterio-desc">Elementos no solicitados que enriquecen la solución</span>
+        </td>
+        <td style="text-align:center;vertical-align:middle;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--azul);background:var(--azul-claro) !important;border-right:2px solid var(--azul);">10</td>
+        <td class="descriptor-cell n4">
+          <div class="desc-punto">Agrega 2+ funciones originales no solicitadas y funcionales</div>
+          <div class="desc-punto">Diseño físico cuidado: organización del circuito, etiquetas</div>
+          <div class="desc-punto">Interfaz de usuario mejorada (LCD con mensajes, indicadores)</div>
+          <div class="desc-punto">Evidencia de pensamiento de diseño centrado en el usuario</div>
+        </td>
+        <td class="descriptor-cell n3">
+          <div class="desc-punto">Agrega una función original no solicitada y funcional</div>
+          <div class="desc-punto">Circuito ordenado y con cierta consideración estética</div>
+          <div class="desc-punto">Pequeños detalles que mejoran la experiencia del sistema</div>
+        </td>
+        <td class="descriptor-cell n2">
+          <div class="desc-punto">Intenta agregar valor pero la función no funciona correctamente</div>
+          <div class="desc-punto">El circuito está completo pero sin organización particular</div>
+          <div class="desc-punto">Mínima diferenciación respecto a lo solicitado en el reto</div>
+        </td>
+        <td class="descriptor-cell n1">
+          <div class="desc-punto">Sin elementos adicionales al mínimo requerido por el reto</div>
+          <div class="desc-punto">Circuito desorganizado; sin consideración de presentación</div>
+          <div class="desc-punto">La solución es idéntica a lo básico planteado</div>
+        </td>
+        <td class="score-cell">
+          <div class="score-options">
+            <div class="score-btn" onclick="selectScore(this, 5, 4, 10)" data-nivel="4">4</div>
+            <div class="score-btn" onclick="selectScore(this, 5, 3, 10)" data-nivel="3">3</div>
+            <div class="score-btn" onclick="selectScore(this, 5, 2, 10)" data-nivel="2">2</div>
+            <div class="score-btn" onclick="selectScore(this, 5, 1, 10)" data-nivel="1">1</div>
+          </div>
+          <div class="score-selected" id="sel-5">—</div>
+          <div class="score-ponderated" id="pond-5"></div>
+        </td>
+        <td class="obs-cell">
+          <div class="obs-lines">
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+            <div class="obs-line"></div>
+          </div>
+        </td>
+      </tr>
+
+    </tbody>
+
+    <tfoot>
+      <tr>
+        <td colspan="2"><span class="foot-label">CALIFICACIÓN FINAL DEL EQUIPO</span></td>
+        <td colspan="4" style="padding: 6px 10px;">
+          <span style="font-family:var(--mono);font-size:7.5px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;">
+            Escala: Nivel 4 (9–10 pts) · Nivel 3 (7–8 pts) · Nivel 2 (5–6 pts) · Nivel 1 (1–4 pts) — ponderados por peso del criterio
+          </span>
+        </td>
+        <td style="text-align:center;">
+          <span class="foot-total" id="total-footer">—</span>
+        </td>
+        <td style="padding: 6px 8px;">
+          <span class="foot-firma-label">Firma del evaluador</span>
+          <div class="foot-firma-linea"></div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- ══ GUÍA DE USO + FOOTER ═══════════════════ -->
+  <div class="bottom-grid">
+    <div class="guia-bloque">
+      <div class="guia-titulo">🖊️ Cómo usar esta rúbrica</div>
+      <div class="guia-item">Selecciona el nivel (4/3/2/1) en pantalla o encierra en círculo al imprimir</div>
+      <div class="guia-item">El puntaje se calcula automáticamente en pantalla</div>
+      <div class="guia-item">Usa la columna de Obs. para notas específicas por criterio</div>
+      <div class="guia-item">Imprime una copia por equipo evaluado</div>
+    </div>
+    <div class="guia-bloque">
+      <div class="guia-titulo">⚖️ Conversión de niveles a puntos</div>
+      <div class="guia-item">Nivel 4 → 9.5 pts base × (peso/100)</div>
+      <div class="guia-item">Nivel 3 → 7.5 pts base × (peso/100)</div>
+      <div class="guia-item">Nivel 2 → 5.5 pts base × (peso/100)</div>
+      <div class="guia-item">Nivel 1 → 2.5 pts base × (peso/100)</div>
+    </div>
+    <div class="guia-bloque">
+      <div class="guia-titulo">🏅 Interpretación del puntaje final</div>
+      <div class="guia-item">90–100 pts → Candidato a 1er lugar</div>
+      <div class="guia-item">75–89 pts → Candidato a 2do–3er lugar</div>
+      <div class="guia-item">60–74 pts → Desempeño satisfactorio</div>
+      <div class="guia-item">Menor a 60 pts → Desempeño por desarrollar</div>
+    </div>
+  </div>
+
+  <div class="footer-doc">
+    <div class="footer-izq">
+      MecaChallenge 2025 · Rúbrica de Evaluación · Instrumento oficial · Uso exclusivo del jurado calificador
+    </div>
+    <div class="footer-centro">⚙️ ITSJ · TecNM</div>
+    <div class="footer-der">
+      División de Ing. Mecatrónica · LIIT · tecjerez.edu.mx<br>
+      Clave: ITSJ-MEC-RUB-001-2025
+    </div>
+  </div>
+
+</div><!-- /pagina -->
+
+<script>
+// ── DATOS DE PUNTAJE ──────────────────────────────
+// Nivel → puntos base (midpoint del rango)
+const ptsBase = { 4: 9.5, 3: 7.5, 2: 5.5, 1: 2.5 };
+const scores  = { 1: null, 2: null, 3: null, 4: null, 5: null };
+const pesos   = { 1: 30, 2: 20, 3: 20, 4: 20, 5: 10 };
+const subIds  = { 1: 'sub-1', 2: 'sub-2', 3: 'sub-3', 4: 'sub-4', 5: 'sub-5' };
+const nivelClases = { 4: 'active-4', 3: 'active-3', 2: 'active-2', 1: 'active-1' };
+
+function selectScore(btn, criterio, nivel, peso) {
+  // Limpiar botones de ese criterio
+  const allBtns = btn.closest('.score-options').querySelectorAll('.score-btn');
+  allBtns.forEach(b => {
+    b.className = 'score-btn';
+    b.onclick = b.onclick; // mantener handler
+  });
+
+  // Activar el seleccionado
+  btn.classList.add(nivelClases[nivel]);
+
+  // Calcular pts ponderados
+  const pts = ptsBase[nivel] * (peso / 100);
+  scores[criterio] = pts;
+
+  // Mostrar en la celda
+  document.getElementById('sel-' + criterio).textContent = 'N' + nivel;
+  document.getElementById('sel-' + criterio).style.color =
+    nivel === 4 ? 'var(--nivel-4)' :
+    nivel === 3 ? 'var(--nivel-3)' :
+    nivel === 2 ? 'var(--nivel-2)' : 'var(--nivel-1)';
+
+  document.getElementById('pond-' + criterio).textContent =
+    pts.toFixed(1) + ' pts';
+
+  // Actualizar subtotal en header
+  document.getElementById(subIds[criterio]).textContent = pts.toFixed(1);
+
+  recalcTotal();
+}
+
+function recalcTotal() {
+  let total = 0;
+  let conteo = 0;
+  for (let i = 1; i <= 5; i++) {
+    if (scores[i] !== null) { total += scores[i]; conteo++; }
+  }
+
+  const totalDisplay = document.getElementById('total-display');
+  const barraFill    = document.getElementById('barra-fill');
+  const totalFooter  = document.getElementById('total-footer');
+
+  if (conteo > 0) {
+    totalDisplay.textContent = total.toFixed(1);
+    totalFooter.textContent  = total.toFixed(1) + ' / 100';
+    barraFill.style.width    = Math.min(total, 100) + '%';
+
+    // Color de la barra según puntaje
+    if (total >= 90)      barraFill.style.background = 'var(--nivel-4)';
+    else if (total >= 75) barraFill.style.background = 'var(--nivel-3)';
+    else if (total >= 60) barraFill.style.background = 'var(--nivel-2)';
+    else                  barraFill.style.background = 'var(--nivel-1)';
+  } else {
+    totalDisplay.textContent = '0';
+    totalFooter.textContent  = '—';
+    barraFill.style.width    = '0%';
+  }
+}
+</script>
+
+</body>
+</html>
